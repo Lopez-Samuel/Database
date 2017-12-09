@@ -1,0 +1,39 @@
+<html>
+
+<head>
+</head>
+
+<body>
+    <form action="/post" method="POST">
+        <h1>Welcome {{username}}</h1>
+        <input type="text" name="content name" placeholder="content name" required/> </br>
+        <input type="text" name="filepath" placeholder="content location" required /> </br>
+        <input type="submit" value=Post />
+    </form>
+
+    <style type="text/css">
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+    </style>
+
+    <table>
+        <th>Time</th>
+        <th>Post</th>
+
+        {% for line in posts %}
+        <tr>
+            <td>{{line.ts}}</td>
+            <td>{{line.fliepath}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/logout">Logout</a>
+
+</body>
+
+
+</html>
