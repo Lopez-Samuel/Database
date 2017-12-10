@@ -35,7 +35,7 @@
                 </form>
             </td>
             <form action="/tag/{{id}}" method="POST">
-                <td><input type="text" name="username_taggee" placeholder="Tag" required /> </br>
+                <td><input type="text" name="taggee" placeholder="Tag" required /> </br>
                 </td>
                 <td><input type="submit" value=Tag /></td>
             </form>
