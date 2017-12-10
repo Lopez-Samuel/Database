@@ -115,11 +115,12 @@ def home():
     username = session['username']
     time = datetime.datetime.now()
     cursor = conn.cursor()
-    query = 'SELECT id, timest, content_name, username FROM CONTENT'
+    query = 'SELECT id, timest, content_name, username, count(*) FROM content NATURAL JOIN likes GROUP BY id'
     cursor.execute(query)
     data = cursor.fetchall()
     cursor.close()
     return render_template('home.html', username=username, content = data) #used to say user=username
+
 
 @app.route('/logout')
 def logout():
