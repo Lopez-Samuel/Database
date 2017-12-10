@@ -115,12 +115,11 @@ def home():
     username = session['username']
     time = datetime.datetime.now()
     cursor = conn.cursor()
-    query = 'SELECT content.id, timest, content_name, content.username, count(*) as num FROM content LEFT JOIN likes ON content.id =likes.id GROUP BY content.id'
+    query = 'SELECT COUNT(likes.username) as num, timest, content_name, content.username FROM content LEFT JOIN likes ON content.id= likes.id GROUP BY content.id'
     cursor.execute(query)
     data = cursor.fetchall()
     cursor.close()
     return render_template('home.html', username=username, content = data)
-
 @app.route('/logout')
 def logout():
 	session.pop('username')
@@ -183,6 +182,19 @@ def like(line_id):
     conn.commit()
     cursor.close()
     return redirect(url_for('home'))
+
+@app.route('/tag/<int:line_id>', methods=['GET', 'POST'])
+def tag(line_id):
+    id = line_id
+    taggee = session['username_taggee']
+    tagger = request.form['username_tagger']
+    cursor = conn.cursor()
+    query = 'INSERT INTO Tag(`taggee`,`tagger`, `id`) VALUES (%s, %s)'
+    cursor.execute(query, (taggee, tagger, id))
+    conn.commit()
+    cursor.close()
+    return redirect(url_for('home'))
+
 
 app.secret_key = 'x53467Dbahb2!23'
 #Run the app on localhost port 5000
