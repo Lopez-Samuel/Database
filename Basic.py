@@ -115,11 +115,11 @@ def home():
     username = session['username']
     time = datetime.datetime.now()
     cursor = conn.cursor()
-    query = 'SELECT id, timest, content_name, username, count(*) as num FROM content NATURAL JOIN likes GROUP BY id'
+    query = 'SELECT content.id, timest, content_name, content.username, count(*) as num FROM content LEFT JOIN likes ON content.id =likes.id GROUP BY content.id'
     cursor.execute(query)
     data = cursor.fetchall()
     cursor.close()
-    return render_template('home.html', username=username, content = data) #used to say user=username
+    return render_template('home.html', username=username, content = data)
 
 @app.route('/logout')
 def logout():
@@ -151,12 +151,14 @@ def logout():
 #         return redirect(url_for('home'))
 
 
-@app.route('/addFriendgroup', methods = ['POST'])
-def addFriendgroup():
-    username = session['username']
-    friendGroup = request.form['Friendgroup']
-    friend = request.form['Friend']
-    query = 'SELECT '
+# @app.route('/addFriendgroup', methods = ['POST'])
+# def addFriendgroup():
+#     username = session['username']
+#     friendGroup = request.form['Friendgroup']
+#     friend = request.form['Friend']
+
+#     cursor= = conn.cursor()
+#     query = 'INSERT INTO `FriendGroup` (`group_name`, `username`, `description`) VALUES ()'
     
 
 @app.route('/addComment/<int:line_id>', methods=['GET', 'POST'])
