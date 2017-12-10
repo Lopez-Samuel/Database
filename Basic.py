@@ -115,7 +115,7 @@ def home():
     username = session['username']
     time = datetime.datetime.now()
     cursor = conn.cursor()
-    query = 'SELECT id, timest, content_name, username, count(*) FROM content NATURAL JOIN likes GROUP BY id'
+    query = 'SELECT id, timest, content_name, username, count(*) as num FROM content NATURAL JOIN likes GROUP BY id'
     cursor.execute(query)
     data = cursor.fetchall()
     cursor.close()
