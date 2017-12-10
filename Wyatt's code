@@ -10,4 +10,23 @@ def addComment():
     conn.commit()
     cursor.close()
     return render_template('home.html')
+    
+    
+ CREATE TABLE likes(
+	username VARCHAR (50),
+	id INT,
+	FOREIGN KEY (username) REFERENCES Person(username),
+	FOREIGN KEY (id) REFERENCES content(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+@app.route('/like', methods=['GET', 'POST'])
+def like():
+    username=session['username']
+    cursor=conn.cursor()
+    query="INSERT INTO likes('id', 'username',) VALUES (%i, %s,)"
+    cursor.execute(query, (id, username))
+    conn.commit()
+    cursor.close()
+    return render_template('home.html')
+
 
