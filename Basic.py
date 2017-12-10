@@ -115,29 +115,62 @@ def home():
     username = session['username']
     time = datetime.datetime.now()
     cursor = conn.cursor()
-    return render_template('home.html', user=username)
+    query = 'SELECT id, timest, content_name, username FROM CONTENT'
+    cursor.execute(query)
+    data = cursor.fetchall()
+    cursor.close()
+    return render_template('home.html', username=username, content = data) #used to say user=username
 
 @app.route('/logout')
 def logout():
 	session.pop('username')
 	return redirect('/')
 
-@app.route('/add_Friend', methods = ['GET', 'POST'])
-def add_Friend():
-    username = session['username']
-    friendGroup = request.form['FriendGroup']
-    firstName = request.form['First Name']
-    lastName = request.form['Last Name']
-    cursor.conn.cursor()
-    query = 'SELECT username FROM Person WHERE first name  = %s AND last name = %s'
-    cursor.execute(query,(firstName, lastName))
-    queryCheck = 'COUNT * FROM Member HAVING username = %s AND group_name = %s AND username_creator = %s '
-    cursor.execute(queryCheck,(query,FriendGroup, username))
-    error = None
-    if (queryCheck != 1 ):
-        error ='More than one user with name ' firstName ' ' lastName 'exists in friend group' friendGroup'
-        return render_template('home.html', error = error)
-    else
+# @app.route('/add_Friend', methods = ['GET', 'POST'])
+# def add_Friend():
+#     username = session['username']
+#     friendGroup = request.form['FriendGroup']
+#     firstName = request.form['First Name']
+#     lastName = request.form['Last Name']
+#     cursor.conn.cursor()
+#     query = 'SELECT username FROM Person WHERE first name  = %s AND last name = %s'
+#     cursor.execute(query,(firstName, lastName))
+#     cursor.close()
+#     queryCheck = 'COUNT * FROM Member HAVING username = %s AND group_name = %s AND username_creator = %s '
+#     cursor.execute(queryCheck,(query,FriendGroup, username))
+#     error = None
+#     if (queryCheck != 1 ):
+#         error ='More than one user with name ' firstName ' ' lastName 'exists in friend group ' friendGroup'
+#         return render_template('home.html', error = error)
+#     else
+#         addFriend = 'SELECT username FROM '
+
+# @app.route('/addFriendgroup', methods = ['POST'])
+# def addFriendgroup():
+#     username = session['username']
+#     friendGroup = request.form['Friendgroup']
+    
+
+@app.route('/addComment', methods=['GET', 'POST'])
+def addComment():
+    username=session['username']
+    cursor=conn.cursor()
+    comment=request.form['comment']
+    query="INSERT INTO comment('id', 'username', 'comment') VALUES (%i, %s, %s,)"
+    cursor.execute(query, (id, username, comment))
+    conn.commit()
+    cursor.close()
+    return render_template('home.html')
+
+@app.route('/like', methods=['GET', 'POST'])
+def like():
+    username=session['username']
+    cursor=conn.cursor()
+    query="INSERT INTO likes('id', 'username',) VALUES (%i, %s,)"
+    cursor.execute(query, (id, username))
+    conn.commit()
+    cursor.close()
+    return render_template('home.html')
 
 app.secret_key = 'x53467Dbahb2!23'
 #Run the app on localhost port 5000
