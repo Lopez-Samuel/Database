@@ -1,0 +1,18 @@
+    <table>
+    <th>view</th>
+    <th>group_name</th>
+    <th>admin</th>
+
+    {% for line in viewFriendGroup %}
+    <tr>
+        <td>{{line.group_name}}</td>
+        <td>{{line.admin}}</td>
+        <td>
+            <form action="/view" method="POST">
+                <input type="submit" value=view />
+            </form>
+        </td>
+        <td>{{line.num}}</td>
+    </tr>
+    {% endfor %}
+    </table>
