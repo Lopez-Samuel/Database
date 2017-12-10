@@ -26,6 +26,7 @@
         <th>Type Comment</th>
         <th>Add Comment</th>
         <th>Like</th>
+        <th>Number of likes</th>
 
         {% for line in content %}
         <tr>
@@ -42,6 +43,7 @@
                     <input type="submit" value=Like />
                 </form>
             </td>
+            <td>{{line.num}}</td>
         </tr>
         {% endfor %}
     </table>
