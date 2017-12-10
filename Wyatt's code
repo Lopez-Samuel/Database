@@ -43,10 +43,15 @@ def view(line_id):
     cursor.execute(content, (query, id))
     filepath=cursor.fetchone()
     query="SELECT  as num FROM content WHERE id=%s"%(id)
-    cursor.execute(query
-    
-    
+    cursor.execute(query)
     conn.commit()
     cursor.close()
-    return render_template('view.html', username=username, id=line_id, )
+    return render_template('view.html', username=username, id=line_id, filepath=filepath)
+    
+    
+View.html:
+
+
+
+    
 
