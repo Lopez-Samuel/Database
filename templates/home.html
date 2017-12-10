@@ -21,12 +21,13 @@
 
     <table>
         <th>Time</th>
-        <th>content_name</th>
+        <th>Post Name</th>
         <th>username</th>
         <th>Type Comment</th>
         <th>Add Comment</th>
         <th>Like</th>
         <th>Number of likes</th>
+        <th>View post<th>
 
         {% for line in content %}
         <tr>
@@ -44,6 +45,11 @@
                 </form>
             </td>
             <td>{{line.num}}</td>
+            <td>
+            <form action="/view/{{line.id}}" method="POST">
+                <input type="submit" value=Like />
+            </form>
+            </td>
         </tr>
         {% endfor %}
     </table>
