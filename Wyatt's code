@@ -42,12 +42,15 @@ def view(line_id):
     query="SELECT file_path, username, timest, content_name FROM content WHERE id=%s"%(id)
     cursor.execute(content, (query, id))
     line=cursor.fetchone()
+    query="SELECT comment_text FROM comment WHERE id=%s"%(id)
+    cursor.execute(content, (query, id))
+    comments=cursor.fetchall()
     conn.commit()
     cursor.close()
-    return render_template('view.html', username=username, id=line_id, data=line, number_of_likes=number_of_likes)
+    return render_template('view.html', username=username, id=line_id, data=line, number_of_likes=number_of_likes, comments=comments)
     
     
-View.html:
+
 
 
 
