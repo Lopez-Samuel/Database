@@ -1,0 +1,46 @@
+<body>
+   <style type="text/css">
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+    </style>
+
+    <table>
+        <th>Time</th>
+        <th>Post Name</th>
+        <th>username</th>
+        <th>filepath</th>
+        <th>Type Comment</th>
+        <th>Add Comment</th>
+        <th>Like</th>
+        <th>Number of likes</th>
+        <tr>
+            <td>{{}}</td>
+            <td>{{data.content_name}}</td>
+            <td>{{data.filepath}}</td>
+            <form action="/addComment/{{line.id}}" method="POST">
+                <td><input type="text" name="comment" placeholder="Add Comment" required /> </br>
+                </td>
+                <td><input type="submit" value=Comment /></td>
+            </form>
+            <td>
+                <form action="/like/{{line.id}}" method="POST">
+                    <input type="submit" value=Like />
+                </form>
+            </td>
+            <td>{{line.num}}</td>
+        </tr>
+    </table>
+    <th>Comments<th>
+    {% for line in comments %}
+    <tr>
+         <td>line.comment<td>
+    </tr>
+    
+    
+
+        
+
+</body>
