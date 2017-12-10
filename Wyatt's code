@@ -3,6 +3,7 @@
 
 def addComment():
     username=session['username']
+    id=session['id']
     cursor=conn.cursor()
     comment=request.form['comment']
     query="INSERT INTO comment('id', 'username', 'comment') VALUES (%i, %s, %s,)"
@@ -22,6 +23,7 @@ def addComment():
 @app.route('/like', methods=['GET', 'POST'])
 def like():
     username=session['username']
+    id=session['id']
     cursor=conn.cursor()
     query="INSERT INTO likes('id', 'username',) VALUES (%i, %s,)"
     cursor.execute(query, (id, username))
