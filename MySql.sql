@@ -66,9 +66,10 @@ FOREIGN KEY (id) REFERENCES Content(id),
 FOREIGN KEY (group_name, username) REFERENCES FriendGroup(group_name, username)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
- CREATE TABLE likes(
+CREATE TABLE likes(
 	username VARCHAR (50),
 	id INT,
+	PRIMARY KEY (username, id),
 	FOREIGN KEY (username) REFERENCES Person(username),
 	FOREIGN KEY (id) REFERENCES content(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
