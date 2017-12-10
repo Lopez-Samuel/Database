@@ -36,17 +36,15 @@ def view(line_id):
     id=line_id
     username=session['username']
     cursor=conn.cursor()
-    query="SELECT count(*) as num FROM content WHERE id=%s GROUP BY id"%(id)
+    query="SELECT count(*) as num FROM likes WHERE id=%s GROUP BY id"%(id)
     cursor.execute(query, (username, id))
     number_of_likes=cursor.fetchone()
-    query="SELECT file_path FROM content WHERE id=%s"%(id)
+    query="SELECT file_path, username, timest, content_name FROM content WHERE id=%s"%(id)
     cursor.execute(content, (query, id))
-    filepath=cursor.fetchone()
-    query="SELECT  as num FROM content WHERE id=%s"%(id)
-    cursor.execute(query)
+    line=cursor.fetchone()
     conn.commit()
     cursor.close()
-    return render_template('view.html', username=username, id=line_id, filepath=filepath)
+    return render_template('view.html', username=username, id=line_id, data=line, number_of_likes=number_of_likes)
     
     
 View.html:
