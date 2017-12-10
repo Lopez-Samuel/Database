@@ -2,7 +2,7 @@ def addComment():
     username=session['username']
     cursor=conn.cursor()
     comment=request.form['comment']
-    query='INSERT INTO comment(%i, %s, %s,)'
+    query='INSERT INTO comment('id', 'username', 'comment') VALUES (%i, %s, %s,)'
     cursor.execute(query, (id, username, comment))
     conn.commit()
     cursor.close()
