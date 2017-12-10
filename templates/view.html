@@ -17,8 +17,9 @@
         <th>Like</th>
         <th>Number of likes</th>
         <tr>
-            <td>{{}}</td>
+            <td>{{data.timest}}</td>
             <td>{{data.content_name}}</td>
+            <td>{{data.username}}</td>
             <td>{{data.filepath}}</td>
             <form action="/addComment/{{line.id}}" method="POST">
                 <td><input type="text" name="comment" placeholder="Add Comment" required /> </br>
