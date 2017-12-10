@@ -1,0 +1,16 @@
+
+@app.route('/tag/<int:line_id>', methods=['GET', 'POST'])
+def tag(line_id):
+    id = line_id
+    taggee = session['username_taggee']
+    tagger = request.form['username_tagger']
+    cursor = conn.cursor()
+    query = 'INSERT INTO Tag(`taggee`,`tagger`, `id`) VALUES (%s, %s)'
+    cursor.execute(query, (taggee, tagger, id))
+    conn.commit()
+    cursor.close()
+    return redirect(url_for('home'))
+    
+    
+    
+    
