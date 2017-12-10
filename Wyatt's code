@@ -1,3 +1,6 @@
+@app.route('/comment', methods=['GET', 'POST'])
+
+
 def addComment():
     username=session['username']
     cursor=conn.cursor()
