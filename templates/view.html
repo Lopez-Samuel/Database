@@ -1,6 +1,5 @@
-
 <body>
-   <style type="text/css">
+    <style type="text/css">
         table,
         th,
         td {
@@ -16,30 +15,39 @@
         <th>Type Comment</th>
         <th>Add Comment</th>
         <th>Like</th>
+        <th>Tag User</th>
+        <th>Add Tag</th>
 
         <tr>
             <td>{{data.timest}}</td>
             <td>{{data.content_name}}</td>
             <td>{{data.username}}</td>
             <td>{{data.filepath}}</td>
-            <form action="/addComment/{{id}}" method="POST">
+            <form action="/addComment/{{data.id}}" method="POST">
                 <td><input type="text" name="comment" placeholder="Add Comment" required /> </br>
                 </td>
                 <td><input type="submit" value=Comment /></td>
             </form>
             <td>
-                <form action="/like/{{id}}" method="POST">
+                <form action="/like/{{data.id}}" method="POST">
                     <input type="submit" value=Like />
                 </form>
             </td>
-
+            <form action="/tag/{{data.id}}" method="POST">
+                <td><input type="text" name="Tag" placeholder="Tag" required /> </br>
+                </td>
+                <td><input type="submit" value=Tag /></td>
+            </form>
         </tr>
     </table>
-    <th>Comments<th>
-    {% for line in comments %}
-    <tr>
-         <br/> <td>{{line.comment_text}} <td>
+    <th>Comments
+        <th>
+            {% for line in comments %}
+            <tr>
+                <br/>
+                <td>{{line.comment_text}}
+                    <td>
 
-    </tr>
-    {% endfor %}
+            </tr>
+            {% endfor %}
 </body>
