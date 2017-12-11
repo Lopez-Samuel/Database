@@ -57,9 +57,57 @@ def view(line_id):
  in home:
  
  
-query="SELECT tagger, content_name FROM tag NATURAL JOIN content WHERE tag.taggee=%s AND tag.status=TRUE"
+query="SELECT id, username_tagger, content_name FROM tag JOIN content ON tag.id=content.id WHERE tag.username_taggee= '%s' AND tag.status='0'"
 cursor.execute(query, (username))
-cursor.fetchall()
+pending_tags=cursor.fetchall()
+
+
+
+@app.route('/approve/<str:un>/<str:un_tagger/<int:line_id>', methods=['GET', 'POST'])
+def approve(un, un_tagger, line_id)
+    cursor=conn.cursor()
+    query="UPDATE tag  set status='1' WHERE tag.username_tagger=%s, tag.Username_taggee=%s, tag.id=%s"
+    cursor.execute(query, (un, un_tagger, line_id))   
+    cursor.execute()
+@app.route('/ignore/<str:un>/<str:un_tagger/<int:line_id>', methods=['GET', 'POST'])
+def ignore(un, un_tagger, line_id)
+    cursor=conn.cursor()
+    query="UPDATE tag  set status='0' WHERE tag.username_tagger=%s, tag.Username_taggee=%s, tag.id=%s"
+    cursor.execute(query, (un, un_tagger, line_id))   
+@app.route('/deny/<str:un>/<str:un_tagger/<int:line_id>', methods=['GET', 'POST'])
+def delete(un, un_tagger, line_id)
+    cursor=conn.cursor()
+    query="DELETE FROM tag WHERE tag.username_tagger=%s, tag.Username_taggee=%s, tag.id=%s"
+    cursor.execute(query, (un, un_tagger, line_id))   
+    cursor.execute()
+in home.html:
+
+
+PENDING TAGS
+ <table>
+        <th>Tagger</th>
+        <th>content name</th>
+	<th>Approve</th>
+	<th>Deny</th>
+
+        {% for line in pending_tags %}
+        <tr>
+            <td>{{line.username_tagger}}</td>
+            <td>{{line.content_name}}</td>
+            <td>
+                <form action="/approve/" method="POST">
+                    <input type="submit" value=approve />
+                </form>
+            </td>
+            <td>
+                <form action="/deny/{{username}}/{{line.username_tagger}}/{{line.id}}" method="POST">
+                    <input type="submit" value=deny />
+                </form>
+            </td>
+        {% endfor %}
+    </table>
+
+</table>
 
     
     
