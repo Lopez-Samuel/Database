@@ -118,7 +118,7 @@ def home():
     fg = 'SELECT group_name, username, description FROM friendgroup WHERE username = %s'
     cursor.execute(fg, (username))
     friendGroup = cursor.fetchall()
-    query = 'SELECT COUNT(likes.username) as num, content.id, timest, content_name, content.username FROM content LEFT JOIN likes ON content.id= likes.id GROUP BY content.id'
+    query = 'SELECT COUNT(likes.username) as num, content.id, timest, content_name, content.username, file_path FROM content LEFT JOIN likes ON content.id= likes.id GROUP BY content.id'
     cursor.execute(query)
     data = cursor.fetchall()
     query3='SELECT tag.id, username_tagger, content_name FROM tag JOIN content ON tag.id=content.id WHERE tag.username_taggee= %s AND tag.status= "0"'
@@ -132,30 +132,35 @@ def logout():
 	session.pop('username')
 	return redirect('/')
 
-@app.route('/add_Friend', methods = ['GET', 'POST'])
-def add_Friend():
+@app.route('/add_Friend/<group_name>', methods = ['GET', 'POST'])
+def add_Friend(group_name):
+    firstName = request.form['firstName']
+    lastName = request.form['lastName']
     username = session['username']
-    friendGroup = request.form['FriendGroup']
-    firstName = request.form['First Name']
-    lastName = request.form['Last Name']
-    description = request.form['Description']
     cursor = conn.cursor()
-    query = 'SELECT username FROM Person WHERE first name  = %s AND last name = %s'
-    cursor.execute(query,(firstName, lastName))
-    cursor.close()
-    queryCheck = 'COUNT * FROM Member HAVING username = %s AND group_name = %s AND username_creator = %s '
-    cursor.execute(queryCheck,(query, friendGroup, username))
+    query2 = 'SELECT COUNT(*) as num FROM Person WHERE first_name = %s AND last_name = %s'
+    cursor.execute(query2,(firstName, lastName))
+    count= cursor.fetchone()
     error = None
-    if (queryCheck != 1 ):
-        error ='More than one user with name ' + firstName  + ' ' + lastName + 'exists in friend group ' + friendGroup
-        return redirect(url_for('home'), error= error)
-    else:
-        cursor = conn.cursor()
+    if(count['num'] == 1):
+        query3 = 'SELECT username FROM Person WHERE first_name = %s AND last_name = %s'
+        cursor.execute(query3,(firstName, lastName))
+        friendun = cursor.fetchone()
         addFriendQuery= 'INSERT INTO `Member` (`username`, `group_name`, `username_creator`) VALUES (%s,%s,%s)'
-        cursor.execute(addFriendQuery, (friendGroup,query,username))
+        cursor.execute(addFriendQuery,(friendun['username'],group_name,username))
+        conn.commit()
+        query = 'SELECT Member.username, first_name, last_name FROM Member JOIN Person ON Member.username= Person.username WHERE group_name = %s'
+        cursor.execute(query, (group_name))
+        allMembers2 = cursor.fetchall()
         cursor.close()
-        return redirect(url_for('home'))
-
+        return render_template('viewFriendGroup.html', data= allMembers2, group_name= group_name)
+    elif(count['num'] != 1):
+        query = 'SELECT Member.username, first_name, last_name FROM Member JOIN Person ON Member.username= Person.username WHERE group_name = %s'
+        cursor.execute(query, (group_name))
+        allMembers = cursor.fetchall()
+        cursor.close()
+        error ='More than one user with name ' + firstName  + ' ' + lastName + ' exists in PriCoSha'
+        return render_template('viewFriendGroup.html', group_name = group_name, data=allMembers, error = error)
 
 @app.route('/addFriendGroup', methods = ['POST'])
 def addFriendgroup():
@@ -195,16 +200,16 @@ def like(line_id):
     conn.commit()
     cursor.close()
     return redirect(url_for('home'))
+    
 
-# @app.route('/viewFriendGroup/group_name', methods = ['GET', 'POST'])
-# def viewFriendGroup(group_name):
-#     group=group_name
-#     username = session['username']
-#     cursor = conn.cursor()
-#     query = 'SELECT username FROM member WHERE group_name = %s'
-#     cursor.execute(query, (group))
-#     data = cursor.fetchall()
-#     return redirect(url_for('home'), line = data)
+@app.route('/viewFriendGroup/<group_name>', methods = ['GET', 'POST'])
+def viewFriendGroup(group_name):
+    username = session['username']
+    cursor = conn.cursor()
+    query = 'SELECT Member.username, first_name, last_name FROM Member JOIN Person ON Member.username= Person.username WHERE group_name = %s'
+    cursor.execute(query, (group_name))
+    data = cursor.fetchall()
+    return render_template('viewFriendGroup.html', data = data, group_name = group_name)
 
 @app.route('/tag/<int:data_id>', methods=['GET', 'POST'])
 def tag(data_id):
@@ -232,9 +237,12 @@ def view(line_id):
     query = "SELECT comment_text FROM comment WHERE id=%s"
     cursor.execute(query, (id))
     comments = cursor.fetchall()
+    query="SELECT first_name, last_name FROM Person LEFT OUTER JOIN tag ON tag.username_taggee=Person.username WHERE tag.status='1' AND tag.id=%s"
+    cursor.execute(query, (id))
+    tags=cursor.fetchall()
     conn.commit()
     cursor.close()
-    return render_template('view.html', username=username, id=line_id, data=line, number_of_likes=number_of_likes, comments=comments)
+    return render_template('view.html', username=username, id = line_id, data = line, number_of_likes = number_of_likes, comments = comments, tags = tags)
 
 @app.route('/approve/<un>/<un_tagger>/<int:line_id>', methods=['GET', 'POST'])
 def approve(un, un_tagger, line_id):
