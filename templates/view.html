@@ -22,7 +22,7 @@
             <td>{{data.timest}}</td>
             <td>{{data.content_name}}</td>
             <td>{{data.username}}</td>
-            <td>{{data.filepath}}</td>
+            <td>{{data.file_path}}</td>
             <form action="/addComment/{{data.id}}" method="POST">
                 <td><input type="text" name="comment" placeholder="Add Comment" required /> </br>
                 </td>
@@ -40,20 +40,21 @@
             </form>
         </tr>
     </table>
-    <th>Comments</th>
-            {% for line in comments %}
-            <tr>
-                <br/>
-                <td>{{line.comment_text}}
-                    <td>
+    <h2>Comments</h2>
+    {% for line in comments %}
+    <tr>
+        <br/>
+        <td>{{line.comment_text}}
+            <td>
 
-            </tr>
-            {% endfor %}
-     <th><br/> Tags </th>
-            {% for line in tags %}
-            <tr>
-                <br/>
-                <td>{{line.first_name}}</br>{{line.last_name}}<td>
-            </tr>
-            {% endfor %}
+    </tr>
+    {% endfor %}
+    <h2><br/> Tags </h2>
+    {% for line in tags %}
+    <tr>
+        <br/>
+        <td>{{line.first_name}}<br/>{{line.last_name}}
+            <td><br/>
+    </tr>
+    {% endfor %}
 </body>
