@@ -40,14 +40,20 @@
             </form>
         </tr>
     </table>
-    <th>Comments
-        <th>
+    <th>Comments</th>
             {% for line in comments %}
             <tr>
                 <br/>
                 <td>{{line.comment_text}}
                     <td>
 
+            </tr>
+            {% endfor %}
+     <th><br/>Tags</th>
+            {% for line in tags %}
+            <tr>
+                <br/>
+                <td>{{line.first_name}}</br>{{line.last_name}}<td>
             </tr>
             {% endfor %}
 </body>
