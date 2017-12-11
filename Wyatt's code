@@ -117,7 +117,20 @@ tags=cursor.fetchall()
 
 
 
-
+@app.route('/like/<int:line_id>', methods=['GET', 'POST'])
+def like(line_id):
+    id=line_id
+    username=session['username']
+    cursor=conn.cursor()
+    query='SELECT id from likes where likes.id=%s AND likes.username=%s'
+    cursor.execute(query, (username, id))
+    test=cursor.fetchone()
+    if(!test['username']):
+    	 query='INSERT INTO likes(`username`, `id`) VALUES (%s, %s)'
+         cursor.execute(query, (username, id))
+         conn.commit()
+         cursor.close()
+         return redirect(url_for('home'))
 
     
 
