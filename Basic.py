@@ -154,7 +154,7 @@ def add_Friend(group_name):
         allMembers2 = cursor.fetchall()
         cursor.close()
         return render_template('viewFriendGroup.html', data= allMembers2, group_name= group_name)
-    elif(count['num'] != 1):
+    elif(count['num'] > 1):
         query = 'SELECT Member.username, first_name, last_name FROM Member JOIN Person ON Member.username= Person.username WHERE group_name = %s'
         cursor.execute(query, (group_name))
         allMembers = cursor.fetchall()
@@ -177,15 +177,34 @@ def addFriendgroup():
     conn.commit()
     cursor.close()
     return redirect(url_for('home'))
+
+@app.route('/share/{{content_id}}', methods = ['GET','POST'])
+def share(content_id):
+    username = session['username']
+    friendGroup = request.form['Friend Group']
+    query = 'SELECT group_name FROM friendgroup WHERE username = %s AND group_name = %s'
+    cursor = conn.cursor()
+    cursor.execute(query,(username,friendgroup))
+    result = cursor.fetchone()
+    error= None
+    if(result['group_name'] == friendgroup):
+        query3 = 'INSERT INTO `Share` (`id`, `group_name`, `username`) VALUES (%s, %s, %s)'
+        cursor.execute(query3, (content_id, friendgroup, username))
+        conn.commit()  
+        cursor.close()
+        return redirect(url_for('view', content_id))
+    else:
+        cursor.close()
+        error='You do not own a friendgroup with name: ' + friendGroup
+        return redirect(url_for('view', content_id))
     
 @app.route('/addComment/<int:line_id>', methods=['GET', 'POST'])
 def addComment(line_id):
-    id=line_id
     username=session['username']
     cursor=conn.cursor()
     comment=request.form['comment']
     query='INSERT INTO comment(`id`, `username`, `comment_text`) VALUES (%s, %s, %s)'
-    cursor.execute(query, (id, username, comment))
+    cursor.execute(query, (line_id, username, comment))
     conn.commit()
     cursor.close()
     return redirect(url_for('home'))
