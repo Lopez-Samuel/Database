@@ -11,6 +11,40 @@
         <input type="submit" value=Post />
     </form>
 
+    <table>
+        <h1>Pending Tags</h1>
+        <th>Tagger</th>
+        <th>content name</th>
+        <th>Approve</th>
+        <th>Deny</th>
+        <th>Ignore</th>
+
+        {% for line in pending_tags %}
+        <tr>
+            <td>{{line.username_tagger}}</td>
+            <td>{{line.content_name}}</td>
+            <td>
+                <form action="/approve/{{username}}/{{line.username_tagger}}/{{line.id}}" method="POST">
+                    <input type="submit" value=Approve />
+                </form>
+            </td>
+            <td>
+                <form action="/deny/{{username}}/{{line.username_tagger}}/{{line.id}}" method="POST">
+                    <input type="submit" value=Deny />
+                </form>
+            </td>
+            <td>
+                <form action="/ignore/{{username}}/{{line.username_tagger}}/{{line.id}}" method="POST">
+                    <input type="submit" value=Ignore />
+                </form>
+            </td>
+            {% endfor %}
+    </table>
+
+    <h1>FriendGroups</h1>
+
+    </table>
+
     <style type="text/css">
         table,
         th,
@@ -20,22 +54,25 @@
     </style>
 
     <table>
-        <th>view</th>
         <th>group_name</th>
+        <th>description</th>
         <th>admin</th>
+        <th>view</th>
 
-        {% for line in viewFriendGroup %}
+        {% for line in friendGroup %}
         <tr>
             <td>{{line.group_name}}</td>
-            <td>{{line.admin}}</td>
+            <td>{{line.description}}</td>
+            <td>{{line.username}}</td>
             <td>
-                <form action="/view" method="POST">
-                    <input type="submit" value=view />
+                <form action="/viewFriendGroup/{{line.group_name}}" method="POST">
+                    <input type="submit" value=View />
                 </form>
             </td>
-            <td>{{line.num}}</td>
         </tr>
         {% endfor %}
+
+
     </table>
     <form action="/addFriendGroup" method="POST">
         <input type="Friend" name="Friend" placeholder="Friend" required/></br>
@@ -46,6 +83,7 @@
         {% endif %}
     </form>
 
+    <h1>Content Items</h1>
     <table>
         <th>Time</th>
         <th>Post Name</th>
@@ -56,7 +94,6 @@
         <th>Number of likes</th>
         <th>View post
             <th>
-
                 {% for line in content %}
                 <tr>
                     <td>{{line.timest}}</td>
@@ -75,7 +112,7 @@
                     <td>{{line.num}}</td>
                     <td>
                         <form action="/view/{{line.id}}" method="POST">
-                            <input type="submit" value=view />
+                            <input type="submit" value=View />
                         </form>
                     </td>
                 </tr>
