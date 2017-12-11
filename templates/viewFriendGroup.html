@@ -1,0 +1,30 @@
+<body>
+    <style type="text/css">
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+    </style>
+    <h1>{{group_name}}</h1>
+
+    <table>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+        {% for line in data %}
+        <tr>
+            <td>{{line.first_name}}</td>
+            <td>{{line.last_name}}</td>
+            <td>{{line.username}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <form action="/add_Friend/{{group_name}}" method="POST">
+        <input type="text" name="firstName" placeholder="First Name" required/></br>
+        <input type="text" name="lastName" placeholder="Last Name" required/></br>
+        <input type="submit" value=Submit /> {% if error %}
+        <p class="error"><strong>Error:</strong> {{error}}</p>
+        {% endif %}
+    </form>
+</body>
