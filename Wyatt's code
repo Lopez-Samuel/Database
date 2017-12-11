@@ -112,6 +112,7 @@ PENDING TAGS
     
 IN View:
 query="SELECT first_name, last_name FROM Person LEFT OUTER JOIN tag ON tag.username_taggee=Person.username WHERE tag.status='1' AND tag.id=%s"
+cursor.execute(query, (id, username, comment))
 
 
 
