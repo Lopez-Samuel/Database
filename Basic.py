@@ -118,7 +118,8 @@ def home():
     fg = 'SELECT group_name, username, description FROM friendgroup WHERE username = %s'
     cursor.execute(fg, (username))
     friendGroup = cursor.fetchall()
-    query = 'SELECT COUNT(likes.username) as num, content.id, timest, content_name, content.username, file_path FROM content LEFT JOIN likes ON content.id= likes.id GROUP BY content.id'
+    query = 'SELECT COUNT(likes.username) as num, content.id, timest, content_name, content.username, file_path ' \
+    'FROM content LEFT JOIN likes ON content.id= likes.id WHERE public="1" GROUP BY content.id'
     cursor.execute(query)
     data = cursor.fetchall()
     query3='SELECT tag.id, username_tagger, content_name FROM tag JOIN content ON tag.id=content.id WHERE tag.username_taggee= %s AND tag.status= "0"'
