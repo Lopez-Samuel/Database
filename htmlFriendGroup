@@ -1,0 +1,36 @@
+
+<body>
+   <style type="text/css">
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+    </style>
+
+    <table>
+        <th>view</th>
+        <th>group_name</th>
+        <th>admin</th>
+
+        <tr>
+            <td>{{line.group_name}}</td>
+            <td>{{line.admin}}</td>
+            <td>
+                <form action="/view" method="POST">
+                    <input type="submit" value=view />
+                </form>
+            </td>
+            <td>{{line.num}}</td>
+        </tr>
+
+    </table>
+    <form action="/addFriendGroup" method="POST">
+        <input type="Friend" name="Friend" placeholder="Friend" required/></br>
+        <input type="Friend Group" name="Friend Group" placeholder="Friend Group" required/></br>
+        <input type="Description" name="Description" placeholder="Description" required/></br>
+        <input type="submit" value=Submit /> {% if error %}
+        <p class="error"><strong>Error:</strong> {{error}}</p>
+        {% endif %}
+    </form>
+</body>
