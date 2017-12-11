@@ -50,6 +50,19 @@ def view(line_id):
     return render_template('view.html', username=username, id=line_id, data=line, number_of_likes=number_of_likes, comments=comments)
     
     
+    
+    
+    
+    
+ in home:
+ 
+ 
+query="SELECT tagger, content_name FROM tag NATURAL JOIN content WHERE tag.taggee=%s AND tag.status=TRUE"
+cursor.execute(query, (username))
+cursor.fetchall()
+
+    
+    
 
 
 
