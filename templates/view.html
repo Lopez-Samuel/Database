@@ -17,6 +17,7 @@
         <th>Like</th>
         <th>Tag User</th>
         <th>Add Tag</th>
+        <th>Share To Friend Group</th>
 
         <tr>
             <td>{{data.timest}}</td>
@@ -38,6 +39,10 @@
                 </td>
                 <td><input type="submit" value=Tag /></td>
             </form>
+            <form action="/share/{{data.id}}" method="POST">
+                <td><input type="text" name="Friend Group" placeholder="Friend Group" required /> </br>
+                    <input type="submit" value=Share /></td>
+            </form>
         </tr>
     </table>
     <h2>Comments</h2>
@@ -57,4 +62,6 @@
             <td><br/>
     </tr>
     {% endfor %}
+
+    <a href="/home">Home</a>
 </body>
