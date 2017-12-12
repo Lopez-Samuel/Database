@@ -8,6 +8,7 @@
         <h1>Welcome {{username}}</h1>
         <input type="text" name="content name" placeholder="content name" required/> </br>
         <input type="text" name="filepath" placeholder="content location" required /> </br>
+        <input type="text" name="post" placeholder="Public or Private" required/> </br>
         <input type="submit" value=Post />
     </form>
 
@@ -71,12 +72,13 @@
             </td>
         </tr>
         {% endfor %}
-
     </table>
+    <h2>Create FriendGroup</h2>
     <form action="/addFriendGroup" method="POST">
-        <input type="Friend" name="Friend" placeholder="Friend" required/></br>
-        <input type="Friend Group" name="Friend Group" placeholder="Friend Group" required/></br>
-        <input type="Description" name="Description" placeholder="Description" required/></br>
+        <input type="text" name="FirstName" placeholder="First Name" required/></br>
+        <input type="text" name="LastName" placeholder="Last Name" required/></br>
+        <input type="text" name="Friend Group" placeholder="Friend Group" required/></br>
+        <input type="text" name="Description" placeholder="Description" required/></br>
         <input type="submit" value=Submit /> {% if error %}
         <p class="error"><strong>Error:</strong> {{error}}</p>
         {% endif %}
